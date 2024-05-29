@@ -1,5 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-
+import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 const LINKING_ERROR =
   `The package 'react-native-calendar-add-event' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
@@ -24,6 +24,20 @@ const CalendarAddEvent = CalendarAddEventModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return CalendarAddEvent.multiply(a, b);
+export function addEvent(
+  title: string,
+  startDate: Date,
+  endDate: Date
+): Promise<string> {
+  const convertedStartDate: Double = startDate.getTime();
+  const convertedEndDate: Double = endDate.getTime();
+  // const nowTime = Date.now();
+  // if (nowTime > convertedStartDate) {
+  //   throw 'startDate must not be the past';
+  // }
+  return CalendarAddEvent.addEvent(title, convertedStartDate, convertedEndDate);
 }
+
+export default {
+  addEvent,
+};

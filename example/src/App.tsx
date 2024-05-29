@@ -1,18 +1,40 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-calendar-add-event';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import CalendarEvent from 'react-native-calendar-add-event';
+
+type ButtonPropsTypes = {
+  title: string;
+  onPress: () => void;
+};
+
+const Button = (props: ButtonPropsTypes) => {
+  return (
+    <TouchableOpacity style={styles.btn} onPress={props.onPress}>
+      <Text>{props.title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const addEvent = async () => {
+    const startTime = new Date(Date.now() + 3600 * 1000);
+    const endTime = new Date(Date.now() + 7200 * 1000);
+    try {
+      const res = await CalendarEvent.addEvent(
+        'some event',
+        startTime,
+        endTime
+      );
+      console.warn('res', res);
+    } catch (err) {
+      console.warn('err', err);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button title="add to  calendar" onPress={addEvent} />
     </View>
   );
 }
@@ -27,5 +49,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginVertical: 20,
+  },
+  btn: {
+    width: 300,
+    height: 50,
+    backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
   },
 });

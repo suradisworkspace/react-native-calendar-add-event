@@ -5,18 +5,29 @@ add event to calendar application from react-native
 ## Installation
 
 ```sh
-npm install react-native-calendar-add-event
+yarn add react-native-calendar-add-event
 ```
+
+## iOS Specific
+
+In `Info.plist` update/add `Privacy - Calendars Usage Description`
+
+```plist
+<key>NSCalendarsUsageDescription</key>
+<string>The reason to use calendar</string>
+```
+
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-calendar-add-event';
+import CalendarEvent from 'react-native-calendar-add-event';
 
 // ...
 
-const result = await multiply(3, 7);
+const result = CalendarEvent.addEvent('some event', startTime, endTime)
 ```
+
 
 ## Contributing
 
