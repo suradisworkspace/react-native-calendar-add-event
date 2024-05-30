@@ -21,11 +21,16 @@ export default function App() {
     const startTime = new Date(Date.now() + 3600 * 1000);
     const endTime = new Date(Date.now() + 7200 * 1000);
     try {
-      const res = await CalendarEvent.addEvent(
-        'some event',
-        startTime,
-        endTime
-      );
+      // const res = await CalendarEvent.addEvent(
+      //   'some event',
+      //   startTime,
+      //   endTime
+      // );
+      const res = await CalendarEvent.addEvent({
+        title: 'some event',
+        startDate: startTime,
+        endDate: endTime,
+      });
       console.warn('res', res);
     } catch (err) {
       console.warn('err', err);

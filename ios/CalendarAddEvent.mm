@@ -1,21 +1,30 @@
 #import "CalendarAddEvent.h"
 #import <Foundation/Foundation.h>
 #import <EventKit/EventKit.h>
+#import <React/RCTConvert.h>
 
 @implementation CalendarAddEvent
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(addEvent:(NSString *)title startTime:(double)startTime endTime:(double)endTime resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(addEvent:(NSDictionary *)properties resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
+    // (NSString *)title startTime:(double)startTime endTime:(double)endTime
     EKEventStore *eventStore = [[EKEventStore alloc] init];
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (granted) {
             EKEvent *event = [EKEvent eventWithEventStore:eventStore];
-            event.title = title;
-            NSTimeInterval startInterval = startTime / 1000;
-            NSTimeInterval endInterval = endTime / 1000;
-            event.startDate = [NSDate dateWithTimeIntervalSince1970:startInterval];
-            event.endDate = [NSDate dateWithTimeIntervalSince1970:endInterval];
+            NSString *title = [RCTConvert NSString:properties[@"title"]];
+            NSDate *startDate = [RCTConvert NSDate:properties[@"startDate"]];
+            NSDate *endDate = [RCTConvert NSDate:properties[@"endDate"]];
+            if (title) {
+                event.title = title;
+            }
+            if (startDate) {
+                event.startDate = startDate;
+            }
+            if (endDate) {
+                event.endDate = endDate;
+            }
             event.calendar = eventStore.defaultCalendarForNewEvents;
             NSError *saveEventError = nil;
             BOOL success = [eventStore saveEvent:event span:EKSpanThisEvent commit:YES error:&saveEventError];
