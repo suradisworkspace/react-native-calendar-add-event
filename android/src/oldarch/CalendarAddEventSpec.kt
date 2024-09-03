@@ -9,4 +9,6 @@ abstract class CalendarAddEventSpec internal constructor(context: ReactApplicati
   ReactContextBaseJavaModule(context) {
 
   abstract fun addEvent(properties: ReadableMap, promise: Promise)
+  abstract fun addEventIntent(properties: ReadableMap, promise: Promise)
+
 }

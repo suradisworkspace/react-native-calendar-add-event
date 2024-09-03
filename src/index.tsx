@@ -26,20 +26,34 @@ const CalendarAddEvent = CalendarAddEventModule
 
 type AddEventParams = {
   title: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
+  allDay?: boolean;
+  reminder?: number;
 };
+
+const formatDate = (date: string | Date) => {
+  if (typeof date === 'string') {
+    return date;
+  }
+  return date.toISOString();
+};
+
 export function addEvent({
   title,
   startDate,
   endDate,
+  allDay,
+  reminder,
 }: AddEventParams): Promise<string> {
-  const convertedStartDate = startDate.toISOString();
-  const convertedEndDate = endDate.toISOString();
+  const convertedStartDate = formatDate(startDate);
+  const convertedEndDate = formatDate(endDate);
   return CalendarAddEvent.addEvent({
     title,
     startDate: convertedStartDate,
     endDate: convertedEndDate,
+    allDay,
+    reminder,
   });
 }
 

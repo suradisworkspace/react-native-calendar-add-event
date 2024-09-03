@@ -8,6 +8,13 @@ add event to calendar application from react-native
 yarn add react-native-calendar-add-event
 ```
 
+## Android Specific
+in `AndroidManifest.xml` add Permissions
+```xml
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+```
+
 ## iOS Specific
 
 In `Info.plist` update/add `Privacy - Calendars Usage Description`

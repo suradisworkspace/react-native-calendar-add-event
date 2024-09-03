@@ -21,11 +21,6 @@ export default function App() {
     const startTime = new Date(Date.now() + 3600 * 1000);
     const endTime = new Date(Date.now() + 7200 * 1000);
     try {
-      // const res = await CalendarEvent.addEvent(
-      //   'some event',
-      //   startTime,
-      //   endTime
-      // );
       const res = await CalendarEvent.addEvent({
         title: 'some event',
         startDate: startTime,
@@ -37,9 +32,43 @@ export default function App() {
     }
   };
 
+  const addReminderEvent = async () => {
+    const startTime = new Date(Date.now() + 3600 * 1000);
+    const endTime = new Date(Date.now() + 7200 * 1000);
+    try {
+      const res = await CalendarEvent.addEvent({
+        title: 'some reminder event',
+        startDate: startTime,
+        endDate: endTime,
+        reminder: 15,
+      });
+      console.warn('res', res);
+    } catch (err) {
+      console.warn('err', err);
+    }
+  };
+
+  const addAllDay = async () => {
+    const startTime = new Date(Date.now() + 3600 * 1000);
+    const endTime = new Date(Date.now() + 7200 * 1000);
+    try {
+      const res = await CalendarEvent.addEvent({
+        title: 'all day event',
+        startDate: startTime,
+        endDate: endTime,
+        allDay: true,
+      });
+      console.warn('res', res);
+    } catch (err) {
+      console.warn('err', err);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Button title="add to  calendar" onPress={addEvent} />
+      <Button title="add event" onPress={addEvent} />
+      <Button title="add reminder event" onPress={addReminderEvent} />
+      <Button title="add allday event" onPress={addAllDay} />
     </View>
   );
 }
