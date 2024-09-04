@@ -9,7 +9,10 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(addEvent:(NSDictionary *)properties resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-    [CalendarAddEventImpl addEventWithProperties:properties];
+    CalendarAddEventImpl *calendarImp = [CalendarAddEventImpl sharedInstance];
+    [calendarImp addEventWithProperties:properties completionHandler:^(NSNumber * _Nullable staus, NSError * _Nullable err) {
+        // do some code
+    }];
     // (NSString *)title startTime:(double)startTime endTime:(double)endTime
     
 //    EKEventStore *eventStore = [[EKEventStore alloc] init];
